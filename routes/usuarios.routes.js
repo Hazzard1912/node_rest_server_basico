@@ -7,12 +7,25 @@ const {
   usuariosPatch,
 } = require("../controllers/usuarios.controller");
 const { check } = require("express-validator");
-const { validarCampos } = require("../middlewares/validar-campos");
 const {
   esRoleValido,
   existeEmail,
   existeUsuarioPorId,
 } = require("../helpers/db-validators");
+
+//const { validarJWT } = require("../middlewares/validar-jwt");
+//const { esAdminRole, tieneRole } = require("../middlewares/validar-roles");
+//const { validarCampos } = require("../middlewares/validar-campos");
+
+// Hagamos la nueva importacion mas optima. Lo dicho, ya que esta en index.js
+// No necesitamos ni siquiera dejarlo explicito, ya que va a ser el primer
+// Archivo que buscara el compilador.
+const {
+  validarCampos,
+  validarJWT,
+  tieneRole,
+  esAdminRole,
+} = require("../middlewares");
 
 const router = Router();
 
@@ -22,7 +35,7 @@ router.put(
   "/:id",
   [
     // Podemos tomar el id del segmento directamente desde el check
-    
+
     check("rol").custom(esRoleValido),
     validarCampos,
   ],
@@ -45,11 +58,18 @@ router.post(
   usuariosPost
 );
 
-router.delete("/:id", [
+router.delete(
+  "/:id",
+  [
+    validarJWT,
+    //esAdminRole,
+    tieneRole("ADMIN_ROLE", "VENTAS_ROLE"),
     check("id", "No es un id valido").isMongoId(),
     check("id").custom(existeUsuarioPorId),
     validarCampos,
-], usuariosDelete);
+  ],
+  usuariosDelete
+);
 
 router.patch("/", usuariosPatch);
 

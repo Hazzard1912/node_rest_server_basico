@@ -62,8 +62,9 @@ const usuariosDelete = async (req, res = response) => {
   // Cambiando estado del usuario para evitar la posible integridad 
   // referencial, por lo tanto eliminar en realidad es un update.
   const usuario = await Usuario.findByIdAndUpdate( id, {estado: false});
+  const usuarioAutenticado = req.usuario;
 
-  res.json(usuario);
+  res.json({usuario, usuarioAutenticado});
 };
 
 // Hemos finalizado una api rest, conectada a base de datos y con todo su

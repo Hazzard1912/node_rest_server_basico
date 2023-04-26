@@ -8,6 +8,7 @@
 const validaJWT = require("../middlewares/validar-jwt");
 const validaRoles = require("../middlewares/validar-roles");
 const validaCampos = require("../middlewares/validar-campos");
+const validarArchivo = require('../middlewares/validar-archivo');
 
 // Ahora tenemos unas constantes que contienen todo lo que exportan los
 // archivos en los require. Si necesitamos exportarlas hacemos:
@@ -16,4 +17,5 @@ module.exports = {
   ...validaCampos,
   ...validaRoles,
   ...validaJWT,
+  ...validarArchivo,
 };

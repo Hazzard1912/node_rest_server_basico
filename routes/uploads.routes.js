@@ -4,6 +4,7 @@ const {
   cargarArchivos,
   actualizarImagen,
   mostrarImagen,
+  actualizarImagenCloudinary,
 } = require("../controllers/uploads.controller");
 const { coleccionesPermitidas } = require("../helpers");
 const { validarArchivo, validarCampos } = require("../middlewares");
@@ -30,7 +31,7 @@ router.put(
     ),
     validarCampos,
   ],
-  actualizarImagen
+  actualizarImagenCloudinary
 );
 
 module.exports = router;
